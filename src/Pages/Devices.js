@@ -9,14 +9,13 @@ import Header from "../Components/AppBar";
 import Paper from "@mui/material/Paper";
 import React from "react";
 import { useState } from "react";
-import CreateDevice from "../Components/CreateDevice";
+import CreateDevice from "../Components/CreateDeviceDialog";
 import { DEVICE } from "../Constants/DeviceTable";
 import AlertDialog from "../Components/DeleteDialog";
 
 const DeviceTable = (handleClose) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
 
   return (
     <div>

@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { GATEWAY } from "../Constants/GatewayTable";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import CreateGateway from "../Components/CreateGateway.js";
+import CreateGateway from "../Components/CreateGatewayDialog.js";
 import { useState } from "react";
 import AlertDialog from "../Components/DeleteDialog";
 
