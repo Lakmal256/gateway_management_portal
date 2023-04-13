@@ -1,0 +1,17 @@
+.appbar {
+    background-color: white !important;
+    margin: auto !important;
+    width: 100% !important;
+    position: fixed !important;
+    z-index: 10000;
+  }
+  .appbar_header {
+    display: flex;
+  }
+  .appbar_text {
+    color: gray;
+    margin-left: 8px;
+    padding-top: 20px;
+    font-weight: bold;
+    font-size: large;
+  }

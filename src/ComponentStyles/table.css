@@ -1,0 +1,74 @@
+.receipts_table_main {
+  padding: 40px;
+  width: 550px;
+  margin: auto;
+}
+.receipts_label {
+  text-align: center;
+  font-weight: 700;
+  color: rgb(92, 15, 15);
+  margin: 10px;
+  margin-top: 20px;
+}
+.two_buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+.make_a_payment_button {
+  padding: 6px !important;
+  width: 150px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background-color: rgb(13, 197, 151) !important;
+  cursor: pointer !important;
+  color: white !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  font-size: 12px !important;
+}
+.search_bar {
+  font: inherit;
+  border: 0;
+  border-radius: 4px;
+}
+.view_receipts_button_1 {
+  padding: 6px !important;
+  width: 100px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background-color: rgb(51, 64, 147) !important;
+  cursor: pointer !important;
+  color: white !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  font-size: 10px !important;
+}
+.view_receipts_button_2 {
+  padding: 6px !important;
+  width: 100px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background-color: rgb(64, 124, 71) !important;
+  cursor: pointer !important;
+  color: white !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  font-size: 10px !important;
+}
+.view_receipts_button_3 {
+  padding: 6px !important;
+  width: 100px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background-color: brown !important;
+  cursor: pointer !important;
+  color: white !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  font-size: 10px !important;
+}
+.inner-main {
+  margin-top: 70px;
+  margin-left: 300px;
+}
