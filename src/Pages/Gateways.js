@@ -7,23 +7,54 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Header from "../Components/AppBar";
 import Paper from "@mui/material/Paper";
-import { GATEWAY } from "../Constants/GatewayTable";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import CreateGateway from "../Components/CreateGatewayDialog.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AlertDialog from "../Components/DeleteDialog";
+import api from "../api";
+import { Edit, Delete, AdUnits } from '@mui/icons-material';
 
 const GatewayTable = () => {
-
   const history = useNavigate();
   const Navigate = (serialNumber) => {
     history(`/devices?serialNumber=${serialNumber}`);
-  }
+  };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  
+  const [selectedGateway, setSelectedGateway] = useState(null);
+  const [gateways, setGateways] = useState([]);
 
+  useEffect(() => {
+    getGateways();
+  }, []);
+
+  const getGateways = () => {
+    api.get("/gateway")
+      .then((res) => {
+        console.log('res',res)
+        setGateways(res.data.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+      
+  };
+  
+  const handleAddGateway = () => {
+    setIsDialogOpen(true);
+    setSelectedGateway(null);
+  };
+
+  const handleEditGateway = (gateway) => {
+    setSelectedGateway(gateway);
+    setIsDialogOpen(true);
+  };
+
+
+  // useEffect(()=>{
+  //   console.log('gateway', selectedGateway)
+  // },[selectedGateway]);
 
   return (
     <div>
@@ -32,9 +63,13 @@ const GatewayTable = () => {
         <div className="receipts_label">Gateways</div>
         <div>
           <div className="two_buttons">
-            <button className="make_a_payment_button" onClick={() => setIsDialogOpen(true)}>+ add Gateway</button>
-            <div className="search_bar">
-            </div>
+            <button
+              className="make_a_payment_button"
+              onClick={handleAddGateway}
+            >
+              + Add Gateway
+            </button>
+            <div className="search_bar"></div>
           </div>
           <TableContainer component={Paper}>
             <Table
@@ -52,36 +87,38 @@ const GatewayTable = () => {
                   <TableCell>Serial Number</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>IPv4 Address</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {GATEWAY.map((row) => (
+                {gateways.map((row) => (
                   <TableRow
-                    key={row.serialNumber}
+                    key={row._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.serialNumber}</TableCell>
+                      {row.serialNumber}
+                    </TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.ipv4Address}</TableCell>
                     <TableCell>
-                    <button
+                      <button
                         className="view_receipts_button_1"
                         onClick={() => Navigate(row.serialNumber)}
                       >
-                        View Devices
-                      </button>&nbsp;<br/>
+                        <AdUnits/>
+                      </button>
                       <button
                         className="view_receipts_button_2"
-                        // onClick={}
+                        onClick={() => handleEditGateway(row)}
                       >
-                        Update
-                      </button>&nbsp;<br/>
+                        <Edit />
+                      </button>
                       <button
                         className="view_receipts_button_3"
                         onClick={() => setIsAlertOpen(true)}
                       >
-                        Delete
+                        <Delete />
                       </button>
                     </TableCell>
                   </TableRow>
@@ -90,10 +127,16 @@ const GatewayTable = () => {
             </Table>
           </TableContainer>
         </div>
-        <CreateGateway open={isDialogOpen} handleClose={() => setIsDialogOpen(false)}/>
-        <AlertDialog open={isAlertOpen} handleClose={()=> setIsAlertOpen(false)}/>
+        <CreateGateway
+          open={isDialogOpen}
+          handleClose={() => {setIsDialogOpen(false);setSelectedGateway(null)}}
+          action={selectedGateway ? "Update" : "Add"}
+          gateway={selectedGateway}
+        />
+        <AlertDialog open={isAlertOpen} handleClose={() => setIsAlertOpen(false)} />
       </div>
     </div>
   );
-}
+};
 export default GatewayTable;
+

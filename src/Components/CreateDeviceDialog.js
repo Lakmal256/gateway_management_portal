@@ -2,49 +2,31 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import "../ComponentStyles/create.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ADD_DEVICE } from "../Constants/AddDevice";
 
-const CreateDevice = ({ open, handleClose, onSubmit }) => {
-  const [serialNumber, setSerialNumber] = React.useState("");
-  const [gateName, setGateName] = React.useState("");
-  const [ipAddress, setIpAddress] = React.useState("");
+const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
+  const [uID, setUID] = useState("");
+  const [vendor, setVendor] = useState("");
 
-  const [dataSet, setDataSet] = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const handleData = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    var createDataSet = JSON.parse(JSON.stringify(dataSet));
-    createDataSet[name] = value;
-    setDataSet(createDataSet);
-  };
-  const controlData = (isSubmit) => {
-    setSerialNumber("");
-    setGateName("");
-    setIpAddress("");
-
-    if (isSubmit) {
-      if (serialNumber === "" || gateName === "" || ipAddress ==="") {
-        console.log("Please Fill the Form");
-      } else {
-        onSubmit(serialNumber, gateName, ipAddress);
-      }
-    } else {
-      handleClose();
+  useEffect(() => {
+    if (devices) {
+      setUID(devices.uID);
+      setVendor(devices.vendor);
     }
+  }, [devices]);
+
+  const handleSubmit = () => {
+    onSubmit(uID, vendor);
+    handleClose();
   };
+
   return (
     <div>
       <Dialog classes={{ paper: "cu_form" }} open={open} onClose={handleClose}>
         {/* cu = create user */}
         <div className="cu_title">
-          <div className="cu_signup">Add Device</div>
+          <div className="cu_signup">{action} Device</div>
         </div>
         <div>
           <hr />
@@ -68,8 +50,20 @@ const CreateDevice = ({ open, handleClose, onSubmit }) => {
                     className={field.className}
                     type={field.type}
                     disabled={field.disabled}
-                    onChange={(e) => handleData(e)}
-                    value={dataSet[field.name]}
+                    onChange={(e) => {
+                      if (field.name === "uID") {
+                        setUID(e.target.value);
+                      } else if (field.name === "vendor") {
+                        setVendor(e.target.value);
+                      }
+                    }}
+                    value={
+                      field.name === "uID"
+                        ? uID
+                        : field.name === "vendor"
+                        ? vendor
+                        : ''
+                    }
                   />
                 </div>
               );
@@ -82,8 +76,8 @@ const CreateDevice = ({ open, handleClose, onSubmit }) => {
         <Button className="cu_button" onClick={handleClose}>
             Close
           </Button>&nbsp;
-          <Button className="cu_button" onClick={() => controlData(true)}>
-            Add
+          <Button className="cu_button" onClick={handleSubmit}>
+            {action}
           </Button>
         </div>
       </Dialog>

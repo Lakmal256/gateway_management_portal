@@ -8,23 +8,52 @@ import TableRow from "@mui/material/TableRow";
 import Header from "../Components/AppBar";
 import Paper from "@mui/material/Paper";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreateDevice from "../Components/CreateDeviceDialog";
-import { DEVICE } from "../Constants/DeviceTable";
+import api from "../api";
 import AlertDialog from "../Components/DeleteDialog";
+import { Edit, Delete } from '@mui/icons-material';
 
-const DeviceTable = (handleClose) => {
+const DeviceTable = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [devices, setDevices] = useState([]);
+
+  useEffect(() => {
+    getDevices();
+  }, []);
+
+  const getDevices = () => {
+    api.get("/device")
+      .then((res) => {
+        console.log('res',res)
+        setDevices(res.data.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+      
+  };
+
+  const handleAddDevices = () => {
+    setIsDialogOpen(true);
+    setSelectedDevice(null);
+  };
+
+  const handleEditDevices = (devices) => {
+    setSelectedDevice(devices);
+    setIsDialogOpen(true);
+  };
 
   return (
     <div>
       <div><Header /></div>
-      <div className="receipts_table_main">
+      <div className="receipts_table_main_2">
         <div className="receipts_label">Devices</div>
         <div>
           <div className="two_buttons">
-            <button className="make_a_payment_button" onClick={() => setIsDialogOpen(true)}>+ add Device</button>
+            <button className="make_a_payment_button" onClick={handleAddDevices}>+ add Device</button>
             <div className="search_bar">
             </div>
           </div>
@@ -48,29 +77,29 @@ const DeviceTable = (handleClose) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {DEVICE.map((row) => (
+                {devices.map((row) => (
                   <TableRow
-                    key={row.uID}
+                    key={row.uuid}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.uID}
+                      {row.uuid}
                     </TableCell>
                     <TableCell>{row.vendor}</TableCell>
-                    <TableCell>{row.dateOfCreate}</TableCell>
+                    <TableCell>{row.createdDate}</TableCell>
                     <TableCell>{row.status}</TableCell>
                     <TableCell>
                       <button
                         className="view_receipts_button_2"
-                        // onClick={}
+                        onClick={() => handleEditDevices(row)}
                       >
-                        Update
-                      </button>&nbsp;<br/>
+                        <Edit />
+                      </button>
                       <button
                         className="view_receipts_button_3"
                         onClick={() => setIsAlertOpen(true)}
                       >
-                        Delete
+                        <Delete />
                       </button>
                     </TableCell>
                   </TableRow>
@@ -80,7 +109,10 @@ const DeviceTable = (handleClose) => {
           </TableContainer>
         </div>
         <AlertDialog open={isAlertOpen} handleClose={()=> setIsAlertOpen(false)}/>
-        <CreateDevice open={isDialogOpen} handleClose={() => setIsDialogOpen(false)}/>
+        <CreateDevice open={isDialogOpen}
+          handleClose={() => setIsDialogOpen(false)}
+          action={selectedDevice ? "Update" : "Add"}
+          gateway={selectedDevice}/>
       </div>
     </div>
   );
