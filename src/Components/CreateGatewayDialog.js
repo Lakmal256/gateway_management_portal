@@ -4,8 +4,10 @@ import Dialog from "@mui/material/Dialog";
 import "../ComponentStyles/create.css";
 import { useState, useEffect } from "react";
 import { ADD_GATEWAY} from "../Constants/AddGateway";
+// import api from "../api";
 
 const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
+  const [id, setId] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
   const [gateName, setGateName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
@@ -15,11 +17,12 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
       setSerialNumber(gateway.serialNumber);
       setGateName(gateway.name);
       setIpAddress(gateway.ipv4Address);
+      setId(gateway._id);
     }
   }, [gateway]);
 
   const handleSubmit = () => {
-    onSubmit(serialNumber, gateName, ipAddress);
+    onSubmit(id,serialNumber, gateName, ipAddress, action);
     handleClose();
   };
 

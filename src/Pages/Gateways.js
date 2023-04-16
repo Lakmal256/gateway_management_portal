@@ -11,7 +11,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import CreateGateway from "../Components/CreateGatewayDialog.js";
 import { useState, useEffect } from "react";
-import AlertDialog from "../Components/DeleteDialog";
+import DeleteDialog from "../Components/DeleteDialog";
 import api from "../api";
 import { Edit, Delete, AdUnits } from '@mui/icons-material';
 
@@ -32,30 +32,62 @@ const GatewayTable = () => {
   const getGateways = () => {
     api.get("/gateway")
       .then((res) => {
-        console.log('res',res)
+        console.log('res', res)
         setGateways(res.data.data);
       })
       .catch((err) => {
         console.log("error", err);
       });
-      
+
   };
-  
-  const handleAddGateway = () => {
+
+  const handleAddGateway = (gateway) => {
     setIsDialogOpen(true);
     setSelectedGateway(null);
-    console.log("Setting selectedGateway to null...");
+    api.post("/gateway", gateway)
+      .then((res) => {
+        setGateways(res.data.data);
+        setIsDialogOpen(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   };
 
   const handleEditGateway = (gateway) => {
     setSelectedGateway(gateway);
     setIsDialogOpen(true);
+    api.put("/gateway", gateway)
+      .then((res) => {
+        setGateways(res.data.data);
+        setSelectedGateway(gateway);
+        setIsDialogOpen(true);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   };
+  const handleSubmit = (id, serialNumber, gateName, ipAddress, action,) => {
+    const payload = action === "Add" ? {
+      serialNumber: serialNumber,
+      name: gateName,
+      ipv4Address: ipAddress,
+    } :
+      {
+        name: "Gateway 3",
+      }
+    const url = action === "Add" ? "/gateway" : `/gateway/${id}`
+    const method = action === "Add" ? api.post : api.put
 
-
-  // useEffect(()=>{
-  //   console.log('gateway', selectedGateway)
-  // },[selectedGateway]);
+    method(url, payload)
+      .then((res) => {
+        setGateways(res.data.data);
+        setIsDialogOpen(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  }
 
   return (
     <div>
@@ -63,12 +95,12 @@ const GatewayTable = () => {
       <div className="gateway_table_main">
         <div className="label">Gateways</div>
         <div>
-            <button
-              className="add_gateway_button"
-              onClick={handleAddGateway}
-            >
-              + Add Gateway
-            </button>
+          <button
+            className="add_gateway_button"
+            onClick={handleAddGateway}
+          >
+            + Add Gateway
+          </button>
           <TableContainer component={Paper}>
             <Table
               sx={{
@@ -104,7 +136,7 @@ const GatewayTable = () => {
                         className="device_view_button"
                         onClick={() => Navigate(row.serialNumber)}
                       >
-                        <AdUnits/>
+                        <AdUnits />
                       </button>
                       <button
                         className="gateway_edit_button"
@@ -127,11 +159,12 @@ const GatewayTable = () => {
         </div>
         <CreateGateway
           open={isDialogOpen}
-          handleClose={() => {setIsDialogOpen(false);setSelectedGateway(null)}}
+          handleClose={() => { setIsDialogOpen(false); setSelectedGateway(null) }}
           action={selectedGateway ? "Update" : "Add"}
           gateway={selectedGateway}
+          onSubmit={handleSubmit}
         />
-        <AlertDialog open={isAlertOpen} handleClose={() => setIsAlertOpen(false)} />
+        <DeleteDialog open={isAlertOpen} handleClose={() => setIsAlertOpen(false)} onSubmit={handleSubmit} />
       </div>
     </div>
   );

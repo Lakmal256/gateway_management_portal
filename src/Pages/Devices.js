@@ -11,7 +11,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import CreateDevice from "../Components/CreateDeviceDialog";
 import api from "../api";
-import AlertDialog from "../Components/DeleteDialog";
+import DeleteDialog from "../Components/DeleteDialog";
 import { Edit, Delete } from '@mui/icons-material';
 
 const DeviceTable = () => {
@@ -105,7 +105,7 @@ const DeviceTable = () => {
             </Table>
           </TableContainer>
         </div>
-        <AlertDialog open={isAlertOpen} handleClose={()=> setIsAlertOpen(false)}/>
+        <DeleteDialog open={isAlertOpen} handleClose={()=> setIsAlertOpen(false)}/>
         <CreateDevice open={isDialogOpen}
           handleClose={() => setIsDialogOpen(false)}
           action={selectedDevice ? "Update" : "Add"}
