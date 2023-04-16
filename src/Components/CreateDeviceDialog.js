@@ -6,28 +6,25 @@ import { useEffect, useState } from "react";
 import { ADD_DEVICE } from "../Constants/AddDevice";
 
 const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
-  const [uID, setUID] = useState("");
+  const [uuid, setUID] = useState("");
   const [vendor, setVendor] = useState("");
 
   useEffect(() => {
     if (devices) {
-      setUID(devices.uID);
+      setUID(devices.uuid);
       setVendor(devices.vendor);
     }
   }, [devices]);
 
   const handleSubmit = () => {
-    onSubmit(uID, vendor);
+    onSubmit(uuid, vendor);
     handleClose();
   };
 
   return (
     <div>
-      <Dialog classes={{ paper: "cu_form" }} open={open} onClose={handleClose}>
-        {/* cu = create user */}
-        <div className="cu_title">
-          <div className="cu_signup">{action} Device</div>
-        </div>
+      <Dialog classes={{ paper: "create_form" }} open={open} onClose={handleClose}>
+        <div className="create_title">{action} Device</div>
         <div>
           <hr />
         </div>
@@ -36,14 +33,14 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
           if (field.show) {
             if (field.type === "select") {
               return (
-                <div className="cu_form_row" key={field.id}>
-                  <div className="cu_form_label">{field.label}</div>
+                <div className="create_form_row" key={field.id}>
+                  <div>{field.label}</div>
                 </div>
               );
             } else {
               return (
-                <div className="cu_form_row" key={field.id}>
-                  <div className="cu_form_label">{field.label}</div>
+                <div className="create_form_row" key={field.id}>
+                  <div>{field.label}</div>
                   <input
                     placeholder={field.label}
                     name={field.name}
@@ -51,18 +48,18 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
                     type={field.type}
                     disabled={field.disabled}
                     onChange={(e) => {
-                      if (field.name === "uID") {
+                      if (field.name === "uuid") {
                         setUID(e.target.value);
                       } else if (field.name === "vendor") {
                         setVendor(e.target.value);
                       }
                     }}
                     value={
-                      field.name === "uID"
-                        ? uID
+                      field.name === "uuid"
+                        ? uuid
                         : field.name === "vendor"
-                        ? vendor
-                        : ''
+                          ? vendor
+                          : ''
                     }
                   />
                 </div>
@@ -72,11 +69,11 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
             return null;
           }
         })}
-        <div className="cu_button_head">
-        <Button className="cu_button" onClick={handleClose}>
+        <div className="create_button_head">
+          <Button className="create_button" onClick={handleClose}>
             Close
           </Button>&nbsp;
-          <Button className="cu_button" onClick={handleSubmit}>
+          <Button className="create_button" onClick={handleSubmit}>
             {action}
           </Button>
         </div>

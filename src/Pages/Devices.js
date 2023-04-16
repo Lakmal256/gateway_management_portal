@@ -49,13 +49,10 @@ const DeviceTable = () => {
   return (
     <div>
       <div><Header /></div>
-      <div className="receipts_table_main_2">
-        <div className="receipts_label">Devices</div>
+      <div className="device_table_main">
+        <div className="label">Devices</div>
         <div>
-          <div className="two_buttons">
-            <button className="make_a_payment_button" onClick={handleAddDevices}>+ add Device</button>
-            <div className="search_bar">
-            </div>
+            <button className="add_gateway_button" onClick={handleAddDevices}>+ Add Device</button>
           </div>
           <TableContainer component={Paper}>
             <Table
@@ -90,13 +87,13 @@ const DeviceTable = () => {
                     <TableCell>{row.status}</TableCell>
                     <TableCell>
                       <button
-                        className="view_receipts_button_2"
+                        className="gateway_edit_button"
                         onClick={() => handleEditDevices(row)}
                       >
                         <Edit />
                       </button>
                       <button
-                        className="view_receipts_button_3"
+                        className="gateway_delete_button"
                         onClick={() => setIsAlertOpen(true)}
                       >
                         <Delete />
@@ -114,7 +111,6 @@ const DeviceTable = () => {
           action={selectedDevice ? "Update" : "Add"}
           gateway={selectedDevice}/>
       </div>
-    </div>
   );
 }
 export default DeviceTable;

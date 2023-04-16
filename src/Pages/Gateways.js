@@ -44,6 +44,7 @@ const GatewayTable = () => {
   const handleAddGateway = () => {
     setIsDialogOpen(true);
     setSelectedGateway(null);
+    console.log("Setting selectedGateway to null...");
   };
 
   const handleEditGateway = (gateway) => {
@@ -59,18 +60,15 @@ const GatewayTable = () => {
   return (
     <div>
       <div><Header /></div>
-      <div className="receipts_table_main">
-        <div className="receipts_label">Gateways</div>
+      <div className="gateway_table_main">
+        <div className="label">Gateways</div>
         <div>
-          <div className="two_buttons">
             <button
-              className="make_a_payment_button"
+              className="add_gateway_button"
               onClick={handleAddGateway}
             >
               + Add Gateway
             </button>
-            <div className="search_bar"></div>
-          </div>
           <TableContainer component={Paper}>
             <Table
               sx={{
@@ -103,19 +101,19 @@ const GatewayTable = () => {
                     <TableCell>{row.ipv4Address}</TableCell>
                     <TableCell>
                       <button
-                        className="view_receipts_button_1"
+                        className="device_view_button"
                         onClick={() => Navigate(row.serialNumber)}
                       >
                         <AdUnits/>
                       </button>
                       <button
-                        className="view_receipts_button_2"
+                        className="gateway_edit_button"
                         onClick={() => handleEditGateway(row)}
                       >
                         <Edit />
                       </button>
                       <button
-                        className="view_receipts_button_3"
+                        className="gateway_delete_button"
                         onClick={() => setIsAlertOpen(true)}
                       >
                         <Delete />

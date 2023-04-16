@@ -1,37 +1,31 @@
-.cu_form {
+.create_form {
     padding: 20px;
     width: 280px;
     font-weight: 700;
   }
-  .cu_image {
-    margin: auto;
-    margin-top: 0px;
-  }
-  .cu_title {
+  .create_title {
     margin: auto;
     font-weight: bold;
     text-align: center;
-  }
-  .cu_signup {
     color: rgb(92, 15, 15);
   }
   .cu_user {
     color: rgb(133, 128, 128);
     font-size: small !important;
   }
-  .cu_form_row {
+  .create_form_row {
     color: rgb(92, 15, 15);
     font-weight: bold;
     font-size: 13px;
     margin-bottom: 10px;
   }
-  .cu_button_head {
+  .create_button_head {
     color: white;
     justify-content: center;
     display: flex;
     margin-bottom: 20px;
   }
-  .cu_button {
+  .create_button {
     padding: 6px !important;
     width: 100% !important;
     border-radius: 6px !important;

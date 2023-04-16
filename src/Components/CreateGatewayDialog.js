@@ -25,10 +25,8 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
 
   return (
     <div>
-      <Dialog classes={{ paper: "cu_form" }} open={open} onClose={handleClose}>
-        <div className="cu_title">
-          <div className="cu_signup">{action} Gateway</div>
-        </div>
+      <Dialog classes={{ paper: "create_form" }} open={open} onClose={handleClose}>
+          <div className="create_title">{action} Gateway</div>
         <div>
           <hr />
         </div>
@@ -36,14 +34,14 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
           if (field.show) {
             if (field.type === "select") {
               return (
-                <div className="cu_form_row" key={field.id}>
-                  <div className="cu_form_label">{field.label}</div>
+                <div className="create_form_row" key={field.id}>
+                  <div>{field.label}</div>
                 </div>
               );
             } else {
               return (
-                <div className="cu_form_row" key={field.id}>
-                  <div className="cu_form_label">{field.label}</div>
+                <div className="create_form_row" key={field.id}>
+                  <div>{field.label}</div>
                   <input
                     placeholder={field.label}
                     name={field.name}
@@ -74,11 +72,11 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
             return null;
           }
         })}
-        <div className="cu_button_head">
-          <Button className="cu_button" onClick={handleClose}>
+        <div className="create_button_head">
+          <Button className="create_button" onClick={handleClose}>
             Cancel
-          </Button>&nbsp;
-          <Button className="cu_button" onClick={handleSubmit}>
+          </Button>nbsp;
+          <Button className="create_button" onClick={handleSubmit}>
             {action}
           </Button>
         </div>
