@@ -11,7 +11,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import CreateDevice from "../Components/CreateDeviceDialog";
 import api from "../api";
-import DeleteDialog from "../Components/DeleteDialog";
+import DeleteDeviceDialog from "../Components/DeleteDeviceDialog";
 import { Edit, Delete } from '@mui/icons-material';
 
 const DeviceTable = () => {
@@ -19,6 +19,7 @@ const DeviceTable = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [devices, setDevices] = useState([]);
+  const showAddDeviceButton = devices.length < 10;
 
   useEffect(() => {
     getDevices();
@@ -43,6 +44,7 @@ const DeviceTable = () => {
       .then((res) => {
         setDevices(res.data.data);
         setIsDialogOpen(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
@@ -57,6 +59,7 @@ const DeviceTable = () => {
         setDevices(res.data.data);
         setSelectedDevice(devices);
         setIsDialogOpen(true);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
@@ -65,9 +68,7 @@ const DeviceTable = () => {
   const handleSubmit = (id, uuid, vendor, gatewayId, status, action,) => {
     const payload = action === "Add" ? {
       vendor: vendor,
-      status: status,
       gatewayId: gatewayId,
-      uuid: uuid
     } :
       {
         vendor: vendor,
@@ -80,11 +81,22 @@ const DeviceTable = () => {
       .then((res) => {
         setDevices(res.data.data);
         setIsDialogOpen(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
       });
-  }
+  };
+  const handleDelete = (id) => {
+    api.delete(`/device/${id}`)
+      .then((res) => {
+        setDevices(res.data.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   return (
     <div>
@@ -92,7 +104,9 @@ const DeviceTable = () => {
       <div className="device_table_main">
         <div className="label">Devices</div>
         <div>
-          <button className="add_gateway_button" onClick={handleAddDevices}>+ Add Device</button>
+          {showAddDeviceButton && (
+            <button className="add_gateway_button" onClick={handleAddDevices}>+ Add Device</button>
+          )}
         </div>
         <TableContainer component={Paper}>
           <Table
@@ -145,12 +159,18 @@ const DeviceTable = () => {
           </Table>
         </TableContainer>
       </div>
-      <DeleteDialog open={isAlertOpen} handleClose={() => setIsAlertOpen(false)} />
       <CreateDevice open={isDialogOpen}
         handleClose={() => setIsDialogOpen(false)}
         action={selectedDevice ? "Update" : "Add"}
         devices={selectedDevice}
         onSubmit={handleSubmit} />
+
+      <DeleteDeviceDialog
+        open={isAlertOpen}
+        handleClose={() => setIsAlertOpen(false)}
+        devices={selectedDevice}
+        onSubmit={handleDelete}
+      />
     </div>
   );
 }

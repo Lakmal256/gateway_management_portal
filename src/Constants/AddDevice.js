@@ -6,7 +6,7 @@ export const ADD_DEVICE = [
       className: "create_input",
       type: "text",
       disabled: false,
-      show: true,
+      show: false,
     },
     {
       id: "vendor",

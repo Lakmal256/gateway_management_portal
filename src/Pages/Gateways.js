@@ -11,7 +11,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import CreateGateway from "../Components/CreateGatewayDialog.js";
 import { useState, useEffect } from "react";
-import DeleteDialog from "../Components/DeleteDialog";
+import DeleteGatewayDialog from "../Components/DeleteGatewayDialog";
 import api from "../api";
 import { Edit, Delete, AdUnits } from '@mui/icons-material';
 
@@ -48,6 +48,7 @@ const GatewayTable = () => {
       .then((res) => {
         setGateways(res.data.data);
         setIsDialogOpen(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
@@ -60,6 +61,7 @@ const GatewayTable = () => {
     api.put("/gateway", gateway)
       .then((res) => {
         setGateways(res.data.data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
@@ -81,16 +83,18 @@ const GatewayTable = () => {
       .then((res) => {
         setGateways(res.data.data);
         setIsDialogOpen(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
       });
-  }
+  };
 
   const handleDelete = (id) => {
     api.delete(`/gateway/${id}`)
       .then((res) => {
         setGateways(res.data.data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("error", err);
@@ -172,7 +176,7 @@ const GatewayTable = () => {
           gateway={selectedGateway}
           onSubmit={handleSubmit}
         />
-        <DeleteDialog
+        <DeleteGatewayDialog
           open={isAlertOpen}
           handleClose={() => setIsAlertOpen(false)}
           gateway={selectedGateway}

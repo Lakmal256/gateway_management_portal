@@ -3,14 +3,16 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import "../ComponentStyles/create.css";
 import { useState, useEffect } from "react";
-import { ADD_GATEWAY} from "../Constants/AddGateway";
-// import api from "../api";
+import { ADD_GATEWAY } from "../Constants/AddGateway";
+
+const IPV4_REGEX_PATTERN = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
 const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
   const [id, setId] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
   const [gateName, setGateName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
+  const [ipAddressError, setIpAddressError] = useState("");
 
   useEffect(() => {
     if (gateway) {
@@ -22,8 +24,21 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
   }, [gateway]);
 
   const handleSubmit = () => {
-    onSubmit(id,serialNumber, gateName, ipAddress, action);
-    handleClose();
+    if (!serialNumber.trim()) {
+      alert(`Serial Number is required`);
+      return;
+    }
+    if (!gateName.trim()) {
+      alert('Name is required');
+      return;
+    }if (!ipAddress.trim()) {
+      alert('IPV4 Address is required');
+      return;
+    }
+    if (!ipAddressError) {
+      onSubmit(id,serialNumber, gateName, ipAddress, action);
+      handleClose();
+    }
   };
 
   return (
@@ -60,6 +75,14 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
                         setIpAddress(e.target.value);
                       }
                     }}
+                    onBlur={() => {
+                      if (!ipAddress.match(IPV4_REGEX_PATTERN)) {
+                        setIpAddressError("Please enter a valid IPv4 address.");
+                      } else {
+                        setIpAddressError("");
+                      }
+                    }}
+                    required={field.name === "serialNumber" || field.name === "name" || field.name === "ipv4Address"}
                     value={
                       field.name === "serialNumber"
                         ? serialNumber
@@ -68,6 +91,9 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
                         : ipAddress
                     }
                   />
+                  {field.name === "ipv4Address" && ipAddressError && (
+                    <div className="error">{ipAddressError}</div>
+                  )}
                 </div>
               );
             }
@@ -89,4 +115,3 @@ const CreateGateway = ({ open, handleClose, onSubmit, action, gateway }) => {
 };
 
 export default CreateGateway;
-

@@ -23,6 +23,10 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
   }, [devices]);
 
   const handleSubmit = () => {
+    if (vendor.trim() === '') {
+      alert('Vendor is required');
+      return;
+    }
     onSubmit(id, uuid, vendor, gatewayId, status, action);
     handleClose();
   };
@@ -67,6 +71,7 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
                           ? vendor
                           : ''
                     }
+                    required={field.name === "vendor"}
                   />
                 </div>
               );
@@ -88,3 +93,4 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
   );
 };
 export default CreateDevice;
+

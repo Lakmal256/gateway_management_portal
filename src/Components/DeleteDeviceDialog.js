@@ -5,21 +5,22 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState, useEffect } from 'react';
 
-const DeleteDialog = ({ open, handleClose, gateway , onSubmit}) => {
+const DeleteDeviceDialog = ({ open, handleClose, devices , onSubmit}) => {
+
     const [id, setId] = useState("");
     useEffect(() => {
-        if (gateway) {
-          setId(gateway._id);
+        if (devices) {
+          setId(devices._id);
         }
-      }, [gateway]);
+      }, [devices]);
 
       const handleDelete = () => {
         onSubmit(id);
         handleClose();
       };
-    return (
+        return (
       <div>
-        <Dialog classes={{ paper: "cu_form" }} open={open} onClose={handleClose}>
+        <Dialog classes={{ paper: "create_form" }} open={open} onClose={handleClose}>
           <DialogTitle id="alert-dialog-title">{"Are You Sure?"}</DialogTitle>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
@@ -32,4 +33,4 @@ const DeleteDialog = ({ open, handleClose, gateway , onSubmit}) => {
     );
   };
   
-  export default DeleteDialog;  
+  export default DeleteDeviceDialog;  
