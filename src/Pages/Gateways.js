@@ -60,8 +60,6 @@ const GatewayTable = () => {
     api.put("/gateway", gateway)
       .then((res) => {
         setGateways(res.data.data);
-        setSelectedGateway(gateway);
-        setIsDialogOpen(true);
       })
       .catch((err) => {
         console.log("error", err);
@@ -74,7 +72,7 @@ const GatewayTable = () => {
       ipv4Address: ipAddress,
     } :
       {
-        name: "Gateway 3",
+        name: gateName,
       }
     const url = action === "Add" ? "/gateway" : `/gateway/${id}`
     const method = action === "Add" ? api.post : api.put
@@ -88,6 +86,16 @@ const GatewayTable = () => {
         console.log("error", err);
       });
   }
+
+  const handleDelete = (id) => {
+    api.delete(`/gateway/${id}`)
+      .then((res) => {
+        setGateways(res.data.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   return (
     <div>
@@ -164,7 +172,12 @@ const GatewayTable = () => {
           gateway={selectedGateway}
           onSubmit={handleSubmit}
         />
-        <DeleteDialog open={isAlertOpen} handleClose={() => setIsAlertOpen(false)} onSubmit={handleSubmit} />
+        <DeleteDialog
+          open={isAlertOpen}
+          handleClose={() => setIsAlertOpen(false)}
+          gateway={selectedGateway}
+          onSubmit={handleDelete}
+        />
       </div>
     </div>
   );

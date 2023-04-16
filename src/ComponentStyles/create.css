@@ -9,10 +9,6 @@
     text-align: center;
     color: rgb(92, 15, 15);
   }
-  .cu_user {
-    color: rgb(133, 128, 128);
-    font-size: small !important;
-  }
   .create_form_row {
     color: rgb(92, 15, 15);
     font-weight: bold;

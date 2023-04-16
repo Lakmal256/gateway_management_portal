@@ -1,7 +1,7 @@
 export const ADD_DEVICE = [
     {
-      id: "uID",
-      name: "uID",
+      id: "uuid",
+      name: "uuid",
       label: "UID",
       className: "create_input",
       type: "text",

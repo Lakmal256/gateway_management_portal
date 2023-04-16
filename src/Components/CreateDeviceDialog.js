@@ -6,18 +6,24 @@ import { useEffect, useState } from "react";
 import { ADD_DEVICE } from "../Constants/AddDevice";
 
 const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
+  const [id, setId] = useState("");
   const [uuid, setUID] = useState("");
   const [vendor, setVendor] = useState("");
+  const [gatewayId, setGatewayId] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (devices) {
+      setId(devices._id);
       setUID(devices.uuid);
       setVendor(devices.vendor);
+      setGatewayId(devices.gatewayId);
+      setStatus(devices.status);
     }
   }, [devices]);
 
   const handleSubmit = () => {
-    onSubmit(uuid, vendor);
+    onSubmit(id, uuid, vendor, gatewayId, status, action);
     handleClose();
   };
 
