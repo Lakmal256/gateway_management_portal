@@ -91,7 +91,7 @@ const GatewayTable = () => {
   };
 
   const handleDelete = (id) => {
-    console.log("id", id);
+    setIsAlertOpen(true);
     api.delete(`/gateway/${id}`)
       .then((res) => {
         setGateways(res.data.data);
@@ -159,7 +159,7 @@ const GatewayTable = () => {
                       </button>
                       <button
                         className="gateway_delete_button"
-                        onClick={() => setIsAlertOpen(true)}
+                        onClick={() => {setIsAlertOpen(true); handleDelete(row._id)} }
                       >
                         <Delete />
                       </button>

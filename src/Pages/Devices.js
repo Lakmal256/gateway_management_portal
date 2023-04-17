@@ -148,7 +148,7 @@ const DeviceTable = () => {
                     </button>
                     <button
                       className="gateway_delete_button"
-                      onClick={() => setIsAlertOpen(true)}
+                      onClick={() => {setIsAlertOpen(true);handleDelete(row._id)}}
                     >
                       <Delete />
                     </button>
