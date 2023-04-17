@@ -43,8 +43,9 @@ The IPv4 address of each gateway must be validated
 
 ## Tests
 Basic unit/component/integration tests are included in the solution. To run the tests, use the following command:
-
+```bash
 npm test
+```
 
 ## Conclusion
 This solution provides a web-based gateway management solution for Tech Venturas. It is built using JavaScript programming language and ReactJS framework. The solution includes a Docker build solution which can be up and running on local or cloud services with a few more steps.
