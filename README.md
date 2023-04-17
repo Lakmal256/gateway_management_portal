@@ -19,18 +19,18 @@ Internet connection
 ## Installation
 Follow these steps to run the solution:
 
-Clone the project from the Git repository:
-```bash
-`git clone https://github.com/Lakmal256/gateway_management_portal.git`
+- Clone the project from the Git repository:
+```sh
+git clone https://github.com/Lakmal256/gateway_management_portal.git
 ```
 
-Navigate to the project directory:
-```bash
-`cd project-directory`
+- Navigate to the project directory:
+```sh
+cd project-directory
 ```
-Access the solution in your browser at http://localhost:3000
+- Access the solution in your browser at http://localhost:3000
 
-In order to build and run the MS-Gateway, navigate to project root folder and execute the below command in your cmd/terminal
+- In order to build and run the MS-Gateway, navigate to project root folder and execute the below command in your cmd/terminal
 
 ```sh
 docker compose up
