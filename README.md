@@ -30,6 +30,21 @@ Navigate to the project directory:
 ```
 Access the solution in your browser at http://localhost:3000
 
+In order to build and run the MS-Gateway, navigate to project root folder and execute the below command in your cmd/terminal
+
+```sh
+docker compose up
+```
+or
+
+```sh
+npm install
+```
+- Then in order to start the project in development mode just execute below command,
+```sh
+npm run dev
+```
+
 ## UI Wireframes
 The wireframes for the UI design are available in a separate Google document. The UI is designed using Figma, which is a popular UI design tool.
 

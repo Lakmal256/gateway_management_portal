@@ -17,8 +17,8 @@ import { Edit, Delete, AdUnits } from '@mui/icons-material';
 
 const GatewayTable = () => {
   const history = useNavigate();
-  const Navigate = (serialNumber) => {
-    history(`/devices?serialNumber=${serialNumber}`);
+  const Navigate = (_id) => {
+    history(`/devices?gatewayId=${_id}`);
   };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -147,7 +147,7 @@ const GatewayTable = () => {
                     <TableCell>
                       <button
                         className="device_view_button"
-                        onClick={() => Navigate(row.serialNumber)}
+                        onClick={() => {Navigate(row._id)}}
                       >
                         <AdUnits />
                       </button>

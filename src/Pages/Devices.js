@@ -20,29 +20,32 @@ const DeviceTable = () => {
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [devices, setDevices] = useState([]);
   const showAddDeviceButton = devices.length < 10;
+  const params = new URLSearchParams(window.location.search);
+  const gatewayId = params.get('gatewayId');
+
 
   useEffect(() => {
-    getDevices();
+    getDevices(gatewayId);
   }, []);
 
-  const getDevices = () => {
-    api.get("/device")
+  const getDevices = (gatewayId) => {
+    api.get(`/gateway/${gatewayId}`)
       .then((res) => {
         console.log('res', res)
-        setDevices(res.data.data);
+        setDevices(res.data.data.devices);
       })
       .catch((err) => {
         console.log("error", err);
       });
-
   };
+  
 
   const handleAddDevices = (devices) => {
     setIsDialogOpen(true);
     setSelectedDevice(null);
     api.post("/device", devices)
       .then((res) => {
-        setDevices(res.data.data);
+        setDevices(res.data.data.devices);
         setIsDialogOpen(false);
         window.location.reload();
       })
@@ -56,7 +59,7 @@ const DeviceTable = () => {
     setIsDialogOpen(true);
     api.put("/device", devices)
       .then((res) => {
-        setDevices(res.data.data);
+        setDevices(res.data.data.devices);
         setSelectedDevice(devices);
         setIsDialogOpen(true);
         window.location.reload();
@@ -65,10 +68,12 @@ const DeviceTable = () => {
         console.log("error", err);
       });
   };
-  const handleSubmit = (id, uuid, vendor, gatewayId, status, action,) => {
+  const handleSubmit = (id, uuid, vendor, status, gatewayId, action) => {
     const payload = action === "Add" ? {
+      uuid:uuid,
       vendor: vendor,
-      gatewayId: gatewayId,
+      status:status,
+      gatewayId:gatewayId
     } :
       {
         vendor: vendor,
@@ -79,7 +84,7 @@ const DeviceTable = () => {
 
     method(url, payload)
       .then((res) => {
-        setDevices(res.data.data);
+        setDevices(res.data.data.devices);
         setIsDialogOpen(false);
         window.location.reload();
       })
@@ -90,7 +95,7 @@ const DeviceTable = () => {
   const handleDelete = (id) => {
     api.delete(`/device/${id}`)
       .then((res) => {
-        setDevices(res.data.data);
+        setDevices(res.data.data.devices);
         window.location.reload();
       })
       .catch((err) => {

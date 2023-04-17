@@ -27,7 +27,7 @@ const CreateDevice = ({ open, handleClose, onSubmit, action, devices }) => {
       alert('Vendor is required');
       return;  
     };
-    onSubmit(id, uuid, vendor, gatewayId, status, action);
+    onSubmit(id, uuid, vendor, status, gatewayId, action);
     handleClose();
   };
 
